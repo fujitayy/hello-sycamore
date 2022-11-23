@@ -23,6 +23,9 @@ fn main() {
             frame_handle.set(Some(h));
         });
 
+        let ferris_image_url_list = vec!["/images/ferris.svg", "/images/ferris2.svg"];
+        let ferris_image_index = create_signal(cx, 0);
+
         view! { cx,
             svg(
                 xmlns = "http://www.w3.org/2000/svg",
@@ -30,11 +33,12 @@ fn main() {
                 style = "width:90vmin; height:90vmin; border:1px solid #000",
             ) {
                 image (
-                    href = "/images/ferris.svg",
+                    href = ferris_image_url_list[*ferris_image_index.get()],
                     width = ferris_wh,
                     height = ferris_wh,
                     x = (ferris.get().0 - ferris_r),
                     y = (ferris.get().1 - ferris_r),
+                    on:click = |_| { ferris_image_index.set( (*ferris_image_index.get() + 1) % 2); },
                 ) {}
             }
         }
